@@ -15,9 +15,9 @@ process.source = cms.Source("PoolSource",
     )
 )
 
-process.demo = cms.EDAnalyzer("JetMassStudies",
+process.jetMassStudies = cms.EDAnalyzer("JetMassStudies",
     svsrc = cms.InputTag("slimmedSecondaryVertices"),
     ak8src = cms.InputTag("slimmedJetsAK8")
 )
 
-process.p = cms.Path(process.demo)
+process.p = cms.Path(process.jetMassStudies)

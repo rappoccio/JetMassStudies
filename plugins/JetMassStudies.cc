@@ -133,7 +133,7 @@ JetMassStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     // }
 
     for( auto const & vtx : *vertices ) {
-      if ( reco::deltaR2( vtx.p4(), j.p4() ) < coneSize_*coneSize_ && vtx.charge() == 0 ) {
+      if ( reco::deltaR2( vtx.p4(), j.p4() ) < coneSize_*coneSize_ && vtx.charge() == 0 && vtx.numberOfDaughters() == 2 ) {
 	ks_mass->Fill( j.pt(), vtx.mass() );
       }
       
