@@ -61,7 +61,7 @@ class JetMassStudies : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-      edm::EDGetTokenT<pat::JetCollection>                     ak8jetToken_;
+      edm::EDGetTokenT<edm::View<reco::Candidate> >                     ak8jetToken_;
       edm::EDGetTokenT<std::vector<reco::VertexCompositePtrCandidate> >      svToken_;
       double coneSize_;
       TH2D * ak8charge;
@@ -80,7 +80,7 @@ class JetMassStudies : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 // constructors and destructor
 //
 JetMassStudies::JetMassStudies(const edm::ParameterSet& iConfig) :
-  ak8jetToken_(consumes<pat::JetCollection>( iConfig.getParameter<edm::InputTag>("ak8src") ) ),
+  ak8jetToken_(consumes<edm::View<reco::Candidate> >( iConfig.getParameter<edm::InputTag>("ak8src") ) ),
   svToken_(consumes<std::vector<reco::VertexCompositePtrCandidate> >( iConfig.getParameter<edm::InputTag>("svsrc") ) ),
   coneSize_( iConfig.getParameter<double>("coneSize") )
 {
@@ -110,10 +110,10 @@ JetMassStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   edm::Handle<std::vector<reco::VertexCompositePtrCandidate> > vertices; 
   iEvent.getByToken( svToken_, vertices );
 
-  edm::Handle<std::vector<pat::Jet> > ak8jets;
+  edm::Handle< edm::View<reco::Candidate> > ak8jets;
   iEvent.getByToken(ak8jetToken_, ak8jets);
 
-  for (const pat::Jet &j : *ak8jets) {
+  for ( auto const &j : *ak8jets) {
     // // To get the constituents of the AK8 jets, you have to loop over all of the
     // // daughters recursively. To save space, the first two constituents are actually
     // // the Soft Drop SUBJETS, which will then point to their daughters.
