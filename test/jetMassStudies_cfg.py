@@ -11,7 +11,9 @@ process.TFileService = cms.Service("TFileService", fileName = cms.string("histo.
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        '/store/mc/RunIISpring16MiniAODv2/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/00000/042D62D1-C597-E611-8FA4-549F3525B9A0.root'
+'/store/relval/CMSSW_9_2_7/RelValTTbar_13/MINIAODSIM/92X_upgrade2017_realistic_v7-v2/00000/743B5BB7-BB70-E711-A6C9-0CC47A4D75F0.root',
+'/store/relval/CMSSW_9_2_7/RelValTTbar_13/MINIAODSIM/92X_upgrade2017_realistic_v7-v2/00000/BE06BD72-BB70-E711-9B7D-0CC47A78A414.root'
+
     )
 )
 
