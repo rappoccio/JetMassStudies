@@ -64,8 +64,9 @@ class JetMassStudies : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       edm::EDGetTokenT<edm::View<reco::Candidate> >      ak8jetToken_;
       edm::EDGetTokenT<edm::View<reco::Candidate> >      svToken_;
       double coneSize_;
-      TH2D * ak8charge;
-      TH2D * ks_mass;
+      TH2D * ks_mass_vs_jetpt;
+      TH2D * ks_pt_vs_jetpt;
+
 };
 
 //
@@ -87,7 +88,9 @@ JetMassStudies::JetMassStudies(const edm::ParameterSet& iConfig) :
    //now do what ever initialization is needed
    usesResource("TFileService");
    edm::Service<TFileService> fs;
-   ks_mass = fs->make<TH2D>("ks_mass" , "K_{S} mass within AK8 jets" , 500, 0, 5000, 50 , 0.4 , 0.6 );
+   ks_mass_vs_jetpt = fs->make<TH2D>("ks_mass_vs_jetpt" , "K_{S} mass within AK8 jets" , 500, 0, 5000, 50 , 0.4 , 0.6 );
+   ks_pt_vs_jetpt = fs->make<TH2D>("ks_pt_vs_jetpt" , "K_{S} pt within AK8 jets" , 50, 0, 5000, 50 , 0, 5000 );
+
 }
 
 
@@ -134,7 +137,8 @@ JetMassStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     for( auto const & vtx : *vertices ) {
       if ( reco::deltaR2( vtx.p4(), j.p4() ) < coneSize_*coneSize_ && vtx.charge() == 0 && vtx.numberOfDaughters() == 2 ) {
-	ks_mass->Fill( j.pt(), vtx.mass() );
+	ks_mass_vs_jetpt->Fill( j.pt(), vtx.mass() );
+	ks_pt_vs_jetpt->Fill( j.pt(), vtx.pt() );
       }
       
     }
