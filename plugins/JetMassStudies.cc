@@ -61,8 +61,8 @@ class JetMassStudies : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-      edm::EDGetTokenT<edm::View<reco::Candidate> >                     ak8jetToken_;
-      edm::EDGetTokenT<std::vector<reco::VertexCompositePtrCandidate> >      svToken_;
+      edm::EDGetTokenT<edm::View<reco::Candidate> >      ak8jetToken_;
+      edm::EDGetTokenT<edm::View<reco::Candidate> >      svToken_;
       double coneSize_;
       TH2D * ak8charge;
       TH2D * ks_mass;
@@ -81,13 +81,13 @@ class JetMassStudies : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 //
 JetMassStudies::JetMassStudies(const edm::ParameterSet& iConfig) :
   ak8jetToken_(consumes<edm::View<reco::Candidate> >( iConfig.getParameter<edm::InputTag>("ak8src") ) ),
-  svToken_(consumes<std::vector<reco::VertexCompositePtrCandidate> >( iConfig.getParameter<edm::InputTag>("svsrc") ) ),
+  svToken_(consumes<edm::View<reco::Candidate> >( iConfig.getParameter<edm::InputTag>("svsrc") ) ),
   coneSize_( iConfig.getParameter<double>("coneSize") )
 {
    //now do what ever initialization is needed
    usesResource("TFileService");
    edm::Service<TFileService> fs;
-   ks_mass = fs->make<TH2D>("ks_mass" , "K_{S} mass within AK8 jets" , 100, 0, 1000, 50 , 0.4 , 0.6 );
+   ks_mass = fs->make<TH2D>("ks_mass" , "K_{S} mass within AK8 jets" , 500, 0, 5000, 50 , 0.4 , 0.6 );
 }
 
 
@@ -107,7 +107,7 @@ void
 JetMassStudies::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
-  edm::Handle<std::vector<reco::VertexCompositePtrCandidate> > vertices; 
+  edm::Handle< edm::View<reco::Candidate> > vertices; 
   iEvent.getByToken( svToken_, vertices );
 
   edm::Handle< edm::View<reco::Candidate> > ak8jets;
