@@ -167,8 +167,8 @@ void
 JetMassStudies::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   edm::ParameterSetDescription desc;
   desc.setComment("EDAnalyzer to check into jet mass studies");
-  desc.add<edm::InputTag>("ak8src", edm::InputTag("slimmedJetsAK8") )->setComment("input collection for ak8 jets");
-  desc.add<edm::InputTag>("svsrc", edm::InputTag("slimmedSecondaryVertices") )->setComment("input collection for secondary vertices");
+  desc.add<edm::InputTag>("ak8src", edm::InputTag("no default") )->setComment("input collection for ak8 jets");
+  desc.add<edm::InputTag>("svsrc", edm::InputTag("no default") )->setComment("input collection for secondary vertices");
   desc.add<double>("coneSize", 0.8 )->setComment("Delta R matching cone size between vertices and jets");
   descriptions.addDefault(desc);
 }
